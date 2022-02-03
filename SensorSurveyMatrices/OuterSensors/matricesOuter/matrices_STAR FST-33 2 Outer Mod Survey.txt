@@ -1,0 +1,25 @@
+STAR FST-33 2 Outer Mod Survey.txt
+
+
+Left sensor transfer matrix: 
+     |       0       |       1       |
+--------------------------------------
+   0 |   -0.032925  |   -0.086725
+
+Left sensor rotation matrix: 
+     |       0       |       1       |
+--------------------------------------
+   0 |   1           |   0
+   1 |   -0 |   1
+
+
+Right sensor transfer matrix: 
+     |       0       |       1       |
+--------------------------------------
+   0 |   -0.105  |   -0.0081
+
+Right sensor rotation matrix: 
+     |       0       |       1       |
+--------------------------------------
+   0 |   1           |   0
+   1 |   -0 |   1

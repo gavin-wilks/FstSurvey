@@ -1,0 +1,25 @@
+STAR FST-36 21 Outer Mod Survey.txt
+
+
+Left sensor transfer matrix: 
+     |       0       |       1       |
+--------------------------------------
+   0 |   -0.01715  |   0.083625
+
+Left sensor rotation matrix: 
+     |       0       |       1       |
+--------------------------------------
+   0 |   1           |   0
+   1 |   -0 |   1
+
+
+Right sensor transfer matrix: 
+     |       0       |       1       |
+--------------------------------------
+   0 |   -0.037125  |   -0.006225
+
+Right sensor rotation matrix: 
+     |       0       |       1       |
+--------------------------------------
+   0 |   1           |   0
+   1 |   -0 |   1

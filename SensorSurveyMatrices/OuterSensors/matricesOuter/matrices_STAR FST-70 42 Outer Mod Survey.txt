@@ -1,0 +1,25 @@
+STAR FST-70 42 Outer Mod Survey.txt
+
+
+Left sensor transfer matrix: 
+     |       0       |       1       |
+--------------------------------------
+   0 |   0.05965  |   -0.0359
+
+Left sensor rotation matrix: 
+     |       0       |       1       |
+--------------------------------------
+   0 |   1           |   0
+   1 |   -0 |   1
+
+
+Right sensor transfer matrix: 
+     |       0       |       1       |
+--------------------------------------
+   0 |   -0.018375  |   -0.071525
+
+Right sensor rotation matrix: 
+     |       0       |       1       |
+--------------------------------------
+   0 |   1           |   0
+   1 |   -0 |   1

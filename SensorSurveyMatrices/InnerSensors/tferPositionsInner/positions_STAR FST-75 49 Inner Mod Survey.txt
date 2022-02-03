@@ -1,0 +1,22 @@
+STAR FST-75 49 Inner Mod Survey.txt
+
+
+IDEAL                    MEASURED                TRANSFERRED
+(0.0000, 0.0000)  |  (0.0000, 0.0000)  |  (94.6333, -0.1052)  |Rotation Center Point of Pin ID                 
+
+(95.4200, 0.0000)  |  (-0.0001, 0.0002)  |  (0.0000, 0.1226)  |Left Sensor Lower Left  Bias Intersection       
+
+(34.6730, -252.9780)  |  (95.2142, 0.0004)  |  (34.4904, -252.9997)  |Left Sensor Lower Right Bias Intersection       
+
+(60.7470, -252.9780)  |  (34.3561, -252.9699)  |  (60.5643, -252.9374)  |Right Sensor Lower Left Bias Intersection       
+
+(15.4810, -139.2140)  |  (60.4329, -252.9685)  |  (15.0269, -139.2818)  |Right Sensor Lower Right Bias Intersection      
+
+(36.9060, -136.3940)  |  (15.1585, -139.2048)  |  (36.4451, -136.4107)  |Left Sensor Left Pad Array Intersection Point   
+
+(58.5140, -136.3940)  |  (36.5830, -136.3855)  |  (58.0530, -136.3591)  |Left Sensor Right Pad Array Intersection Point  
+
+(79.9390, -139.2140)  |  (58.1937, -136.3841)  |  (79.4847, -139.1280)  |Right Sensor Left Pad Array Intersection Point  
+
+(47.6800, -251.6000)  |  (79.6187, -139.2037)  |  (47.4940, -251.5906)  |Right Sensor Right Pad Array Intersection Point 
+

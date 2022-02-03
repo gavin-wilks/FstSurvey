@@ -1,0 +1,22 @@
+STAR FST-53 18 Inner Mod Survey.txt
+
+
+IDEAL                    MEASURED                TRANSFERRED
+(0.0000, 0.0000)  |  (0.0000, 0.0000)  |  (94.7855, 0.0537)  |Rotation Center Point of Pin ID                 
+
+(95.4200, 0.0000)  |  (-0.0000, 0.0000)  |  (-0.0000, 0.2374)  |Left Sensor Lower Left  Bias Intersection       
+
+(34.6730, -252.9780)  |  (95.2235, 0.0000)  |  (34.5258, -252.8571)  |Left Sensor Lower Right Bias Intersection       
+
+(60.7470, -252.9780)  |  (34.3990, -252.8285)  |  (60.5997, -252.8069)  |Right Sensor Lower Left Bias Intersection       
+
+(15.4810, -139.2140)  |  (60.4756, -252.8363)  |  (15.1147, -139.1303)  |Right Sensor Lower Right Bias Intersection      
+
+(36.9060, -136.3940)  |  (15.2390, -139.0590)  |  (36.5343, -136.2690)  |Left Sensor Left Pad Array Intersection Point   
+
+(58.5140, -136.3940)  |  (36.6656, -136.2431)  |  (58.1422, -136.2274)  |Left Sensor Right Pad Array Intersection Point  
+
+(79.9390, -139.2140)  |  (58.2754, -136.2484)  |  (79.5726, -139.0061)  |Right Sensor Left Pad Array Intersection Point  
+
+(47.6800, -251.6000)  |  (79.6993, -139.0766)  |  (47.5301, -251.4541)  |Right Sensor Right Pad Array Intersection Point 
+

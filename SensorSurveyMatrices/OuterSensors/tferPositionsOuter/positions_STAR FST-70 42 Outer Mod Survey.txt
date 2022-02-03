@@ -1,0 +1,22 @@
+STAR FST-70 42 Outer Mod Survey.txt
+
+
+IDEAL                    MEASURED                TRANSFERRED
+(95.4200, 0.0000)  |  (0.0000, -0.0000)  |  (95.4016, -0.0715)  |Rotation Center Point of Pin ID                 
+
+(3.2940, -142.3400)  |  (95.1800, -0.0003)  |  (3.3537, -142.3759)  |Left Sensor Lower Left  Bias Intersection       
+
+(46.6060, -136.2530)  |  (3.2474, -142.3079)  |  (46.6656, -136.2889)  |Left Sensor Lower Right Bias Intersection       
+
+(48.8140, -136.2530)  |  (46.5621, -136.2107)  |  (48.7956, -136.3245)  |Right Sensor Lower Left Bias Intersection       
+
+(92.1260, -142.3400)  |  (48.8791, -136.2094)  |  (92.1076, -142.4115)  |Right Sensor Lower Right Bias Intersection      
+
+(-9.3500, -26.9120)  |  (92.2008, -142.2567)  |  (-9.2904, -26.9479)  |Left Sensor Left Pad Array Intersection Point   
+
+(26.9450, -21.8110)  |  (-9.4232, -26.8827)  |  (27.0047, -21.8469)  |Left Sensor Right Pad Array Intersection Point  
+
+(68.4750, -21.8110)  |  (26.8701, -21.7711)  |  (68.4566, -21.8825)  |Right Sensor Left Pad Array Intersection Point  
+
+(104.7700, -26.9120)  |  (68.4398, -21.7475)  |  (104.7516, -26.9835)  |Right Sensor Right Pad Array Intersection Point 
+

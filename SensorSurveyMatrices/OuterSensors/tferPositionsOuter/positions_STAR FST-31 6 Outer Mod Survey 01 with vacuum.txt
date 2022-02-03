@@ -1,0 +1,22 @@
+STAR FST-31 6 Outer Mod Survey 01 with vacuum.txt
+
+
+IDEAL                    MEASURED                TRANSFERRED
+(95.4200, 0.0000)  |  (-0.0000, 0.0000)  |  (95.2799, -0.0583)  |Rotation Center Point of Pin ID                 
+
+(3.2940, -142.3400)  |  (95.2846, -0.0000)  |  (3.1767, -142.4125)  |Left Sensor Lower Left  Bias Intersection       
+
+(46.6060, -136.2530)  |  (3.4585, -142.2799)  |  (46.4887, -136.3255)  |Left Sensor Lower Right Bias Intersection       
+
+(48.8140, -136.2530)  |  (46.7703, -136.1575)  |  (48.6739, -136.3113)  |Right Sensor Lower Left Bias Intersection       
+
+(92.1260, -142.3400)  |  (49.0055, -136.2261)  |  (91.9859, -142.3983)  |Right Sensor Lower Right Bias Intersection      
+
+(-9.3500, -26.9120)  |  (92.3288, -142.2690)  |  (-9.4673, -26.9845)  |Left Sensor Left Pad Array Intersection Point   
+
+(26.9450, -21.8110)  |  (-9.2778, -26.8590)  |  (26.8277, -21.8835)  |Left Sensor Right Pad Array Intersection Point  
+
+(68.4750, -21.8110)  |  (27.0134, -21.7295)  |  (68.3349, -21.8693)  |Right Sensor Left Pad Array Intersection Point  
+
+(104.7700, -26.9120)  |  (68.5557, -21.7615)  |  (104.6299, -26.9703)  |Right Sensor Right Pad Array Intersection Point 
+
