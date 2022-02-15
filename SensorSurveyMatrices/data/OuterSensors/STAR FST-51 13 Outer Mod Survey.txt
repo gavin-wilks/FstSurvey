@@ -1,0 +1,15 @@
+Star FST Module Assembly Outer Survey.RTN 03:05:21 08:35:15 
+Origin Center Point of Pin ID
+|X     |+000.0000||Y     |-000.0000||Z     |+008.2830|Rotation Center Point of Pin ID
+|X     |+095.1875||Y     |-000.0003||Z     |+008.4546|8 Points on both sensors to set the Z Datum
+|Z     |+000.0000||FLT   |+000.1732|Left Sensor Lower Left  Bias Intersection
+|X     |+003.4138||Y     |-142.3293||Z     |+000.0724|Left Sensor Lower Right Bias Intersection
+|X     |+046.7239||Y     |-136.1800||Z     |+000.0162|Right Sensor Lower Left Bias Intersection
+|X     |+048.7518||Y     |-136.1888||Z     |+000.0143|Right Sensor Lower Right Bias Intersection
+|X     |+092.0613||Y     |-142.3266||Z     |-000.0807|Left Sensor Left Pad Array Intersection Point
+|X     |-009.3944||Y     |-026.9153||Z     |+000.0215|Left Sensor Right Pad Array Intersection Point
+|X     |+026.8949||Y     |-021.7616||Z     |+000.1054|Right Sensor Left Pad Array Intersection Point
+|X     |+068.5456||Y     |-021.7658||Z     |+000.1276|Right Sensor Right Pad Array Intersection Point
+|X     |+104.8358||Y     |-026.9104||Z     |+000.1084|Closeout on Origin
+|X     |-000.0035||Y     |-000.0040||TDR   |+000.0054|Closeout on Rotation ID
+|X     |+095.1870||Y     |-000.0040||Z     |+008.4681||TDR   |+000.0030|

@@ -7,7 +7,7 @@
 #include <numeric>
 #include "TMath.h"
 
-void fillMisalignmentTables(std::string date = "20220202")
+void fillMisalignmentTables(std::string date = "20220214")
 {
   std::fstream infile;
   infile.open("data/MisalignmentTables_Wedges.csv", ios::in);
@@ -38,8 +38,8 @@ void fillMisalignmentTables(std::string date = "20220202")
       std::getline(str, moduleId, ','); v_moduleId.push_back(moduleId); 
       str >> wedgeId;        str >> ch; v_wedgeId.push_back(wedgeId);  
       str >> rot;            str >> ch; v_rot.push_back(rot);           
-      str >> dx;             str >> ch; v_dx.push_back(dx);             
-      str >> dy;                        v_dy.push_back(dy);             
+      str >> dx;             str >> ch; v_dx.push_back(dx/10.0);             
+      str >> dy;                        v_dy.push_back(dy/10.0);             
 
       std::cout << count++ << endl; 
       std::cout << moduleId << "," << wedgeId << "," << rot << "," << dx << "," << dy << std::endl;

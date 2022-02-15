@@ -1,0 +1,9 @@
+|X      |+095.4200||Y       |+000.0000|row 1 Rotation Center Point of Pin ID
+|X      |+003.2940||Y       |-142.3400|row 2 Left Sensor Lower Left  Bias Intersection
+|X      |+046.6060||Y       |-136.2530|row 3 Left Sensor Lower Right Bias Intersection
+|X      |+048.8140||Y       |-136.2530|row 4 Right Sensor Lower Left Bias Intersection
+|X      |+092.1260||Y       |-142.3400|row 5 Right Sensor Lower Right Bias Intersection
+|X      |-009.3500||Y       |-026.9120|row 6 Left Sensor Left Pad Array Intersection Point
+|X      |+026.9450||Y       |-021.8110|row 7 Left Sensor Right Pad Array Intersection Point
+|X      |+068.4750||Y       |-021.8110|row 8 Right Sensor Left Pad Array Intersection Point
+|X      |+104.7700||Y       |-026.9120|row 9 Right Sensor Right Pad Array Intersection Point
