@@ -28,6 +28,17 @@
 
 
 #include "TSystem.h"
+#include <algorithm>
+#include "TVector2.h"
+#include <iostream>
+#include "TMath.h"
+#include <ostream>
+#include <fstream>
+#include "TGraph.h"
+#include "TH2D.h"
+#include "TNtuple.h"
+#include "TCanvas.h"
+#include <sstream>
 
 //use these variables and findTheta to find the angle difference between real and ideal
 //vectors (middle to corner)
@@ -60,6 +71,35 @@ double findCoordinateRotation (double rotmx, double rotmy)
 
   return TMath::ASin( -length/denomi );
 }
+
+double findCoordinateRotationBasic (double rotmx, double rotmy)
+{
+  //Find the coorindate rotation after shifting rotation point into the frame where originpin = (0,0)
+
+  double length = TMath::Sqrt( rotmx*rotmx + rotmy*rotmy );
+  //double denomi = ( rotmx*rotmx/rotmy + rotmy);
+
+  return -TMath::ASin( rotmy / length );
+}
+
+double findRotationOfSensor(double ix, double iy, double mx, double my, double ixmid, double iymid, double mxmid, double mymid, double &length)
+{
+  TVector2 ideal(ix,iy);
+  TVector2 idealmid(ixmid,iymid);
+  TVector2 measured(mx,my);
+  TVector2 measuredmid(mxmid,mymid);
+
+  TVector2 idealdiff = ideal - idealmid;
+  TVector2 measureddiff = measured - measuredmid;
+  
+  length = measureddiff.Mod(); 
+
+  double idealangle = idealdiff.Phi();
+  double measuredangle = measureddiff.Phi();
+
+  return idealangle - measuredangle;
+}
+
 
 double findTheta (double ix, double iy, double mxpp, double mypp, double refpointx, double refpointy)
 {
@@ -203,26 +243,26 @@ void calcInnerSensorTables(std::string inputlist = "../list/InnerSensors.list")
     TGraph *gOriginVLength = new TGraph();   
 
     TH2D *hist2D_before[9];
-    hist2D_before[0] = new TH2D("h_mOriginDiffB","M-AI Origin Before",50,-1.0,1.0,50,-1.0,1.0);
-    hist2D_before[1] = new TH2D("h_mRotDiffB","M-AI Rot Before",50,-1.0,1.0,50,-1.0,1.0);
-    hist2D_before[2] = new TH2D("h_mBLDiffB","M-AI BL Before",50,-1.0,1.0,50,-1.0,1.0);
-    hist2D_before[3] = new TH2D("h_mBRDiffB","M-AI BR Before",50,-1.0,1.0,50,-1.0,1.0);
-    hist2D_before[4] = new TH2D("h_mTLDiffB","M-AI TL Before",50,-1.0,1.0,50,-1.0,1.0);
-    hist2D_before[5] = new TH2D("h_mLMDiffB","M-AI LM Before",50,-1.0,1.0,50,-1.0,1.0);
-    hist2D_before[6] = new TH2D("h_mRMDiffB","M-AI RM Before",50,-1.0,1.0,50,-1.0,1.0);
-    hist2D_before[7] = new TH2D("h_mTRDiffB","M-AI TR Before",50,-1.0,1.0,50,-1.0,1.0);
-    hist2D_before[8] = new TH2D("h_mBFDiffB","M-AI BF Before",50,-1.0,1.0,50,-1.0,1.0);
+    hist2D_before[0] = new TH2D("h_mOriginDiffB","M-AI Origin Before",51,-1.0,1.0,51,-1.0,1.0);
+    hist2D_before[1] = new TH2D("h_mRotDiffB","M-AI Rot Before"      ,51,-1.0,1.0,51,-1.0,1.0);
+    hist2D_before[2] = new TH2D("h_mBLDiffB","M-AI BL Before"        ,51,-1.0,1.0,50,-1.0,1.0);
+    hist2D_before[3] = new TH2D("h_mBRDiffB","M-AI BR Before"        ,51,-1.0,1.0,51,-1.0,1.0);
+    hist2D_before[4] = new TH2D("h_mTLDiffB","M-AI TL Before"        ,51,-1.0,1.0,51,-1.0,1.0);
+    hist2D_before[5] = new TH2D("h_mLMDiffB","M-AI LM Before"        ,51,-1.0,1.0,51,-1.0,1.0);
+    hist2D_before[6] = new TH2D("h_mRMDiffB","M-AI RM Before"        ,51,-1.0,1.0,51,-1.0,1.0);
+    hist2D_before[7] = new TH2D("h_mTRDiffB","M-AI TR Before"        ,51,-1.0,1.0,51,-1.0,1.0);
+    hist2D_before[8] = new TH2D("h_mBFDiffB","M-AI BF Before"        ,51,-1.0,1.0,51,-1.0,1.0);
 
     TH2D *hist2D[9];
-    hist2D[0] = new TH2D("h_mOriginDiff","M-AI Origin",50,-1.0,1.0,50,-1.0,1.0);
-    hist2D[1] = new TH2D("h_mRotDiff","M-AI Rot",50,-1.0,1.0,50,-1.0,1.0);
-    hist2D[2] = new TH2D("h_mBLDiff","M-AI BL",50,-1.0,1.0,50,-1.0,1.0);
-    hist2D[3] = new TH2D("h_mBRDiff","M-AI BR",50,-1.0,1.0,50,-1.0,1.0);
-    hist2D[4] = new TH2D("h_mTLDiff","M-AI TL",50,-1.0,1.0,50,-1.0,1.0);
-    hist2D[5] = new TH2D("h_mLMDiff","M-AI LM",50,-1.0,1.0,50,-1.0,1.0);
-    hist2D[6] = new TH2D("h_mRMDiff","M-AI RM",50,-1.0,1.0,50,-1.0,1.0);
-    hist2D[7] = new TH2D("h_mTRDiff","M-AI TR",50,-1.0,1.0,50,-1.0,1.0);
-    hist2D[8] = new TH2D("h_mBFDiff","M-AI BF",50,-1.0,1.0,50,-1.0,1.0);
+    hist2D[0] = new TH2D("h_mOriginDiff","M-AI Origin",51,-1.0,1.0,51,-1.0,1.0);
+    hist2D[1] = new TH2D("h_mRotDiff","M-AI Rot"      ,51,-1.0,1.0,51,-1.0,1.0);
+    hist2D[2] = new TH2D("h_mBLDiff","M-AI BL"        ,51,-0.05,0.05,51,-0.05,0.05);
+    hist2D[3] = new TH2D("h_mBRDiff","M-AI BR"        ,51,-0.05,0.05,51,-0.05,0.05);
+    hist2D[4] = new TH2D("h_mTLDiff","M-AI TL"        ,51,-0.05,0.05,51,-0.05,0.05);
+    hist2D[5] = new TH2D("h_mLMDiff","M-AI LM"        ,51,-0.05,0.05,51,-0.05,0.05);
+    hist2D[6] = new TH2D("h_mRMDiff","M-AI RM"        ,51,-0.05,0.05,51,-0.05,0.05);
+    hist2D[7] = new TH2D("h_mTRDiff","M-AI TR"        ,51,-0.05,0.05,51,-0.05,0.05);
+    hist2D[8] = new TH2D("h_mBFDiff","M-AI BF"        ,51,-0.05,0.05,51,-0.05,0.05);
  
 //......ooOO00OOoo......ooOO00OOoo......ooOO00OOoo......ooOO00OOoo......ooOO00OOoo...//     
     //this section gets the values for the ideal histograms
@@ -372,10 +412,13 @@ void calcInnerSensorTables(std::string inputlist = "../list/InnerSensors.list")
     
     double xdif[36], ydif[36], thetarot[36];          
     double deltax[36], deltay[36], angle[36], moduleAngle[36], lengthOMDiff[36];// QA Variables;
+    double deltaxmid[36];
 
     //xdif and ydif are found from the difference of the real and ideal middles
     for (int b = 0; b < 36; b++)
     {
+      cout << a_moduleId[b] << endl;    
+
       Mx1[b] = (TRx[b] + TLx[b])/2;
       Mx2[b] = (BRx[b] + BLx[b])/2;
       My1[b] = (TLy[b] + BLy[b])/2;
@@ -393,87 +436,240 @@ void calcInnerSensorTables(std::string inputlist = "../list/InnerSensors.list")
       std::cout << "Before translation middlex = " << MxAV[b] << " middley = " << MyAV[b] << std::endl; 
       double rotmxp = Rotx[b] + deltax[b]; //Transfer rotation point into the proper frame
       double rotmyp = Roty[b] + deltay[b];
-      double mxp = MxAV[b] + deltax[b];       //Transfer sensor middle point to proper frame
+      double mxp = MxAV[b] + deltax[b];    //Transfer sensor middle point to proper frame
       double myp = MyAV[b] + deltay[b];
+      double mTLxp = TLx[b] + deltax[b];    //Transfer Top left to proper frame 
+      double mTLyp = TLy[b] + deltay[b];
+      double mTRxp = TRx[b] + deltax[b];    // top right to proper frame
+      double mTRyp = TRy[b] + deltay[b];
+      double mBLxp = BLx[b] + deltax[b];    // bottom left to proper frame
+      double mBLyp = BLy[b] + deltay[b];
+      double mBRxp = BRx[b] + deltax[b];    // bottom right to proper frame
+      double mBRyp = BRy[b] + deltay[b];
+
         
       std::cout << "Ideal      : Middle x = " << std::setprecision(10) << iMxAV  << " Middle y = " << iMyAV << std::endl;
       std::cout << "After shift: Middle x = " << mxp << " Middle y = " << myp << std::endl;
 
-      angle[b] = findCoordinateRotation(rotmxp, rotmyp); //Angle of rotation s.t. rotpin = (x'',0)
+      //Find the angle of rotation such that the rotation pin is placed at some coordinate (x'',0) where the y value is 0
+      angle[b] = findCoordinateRotationBasic(rotmxp, rotmyp); 
      
       std::cout << "Rotation angle for rotation pin = " << angle[b] << std::endl;
       std::cout << "Before rotation RotPinx = " << rotmxp << " Rotpiny = " << rotmyp << std::endl;
 
       rotatePoint(rotmxp, rotmyp, angle[b]); //Rotates rotpin to proper position
       rotatePoint(mxp, myp, angle[b]);       //Rotates sensor middle to proper position
+      rotatePoint(mTLxp,mTLyp, angle[b]);
+      rotatePoint(mTRxp,mTRyp, angle[b]);
+      rotatePoint(mBLxp,mBLyp, angle[b]);
+      rotatePoint(mBRxp,mBRyp, angle[b]);
+
 
       std::cout << "After rotation RotPinx = " << rotmxp << " Rotpiny = " << rotmyp << std::endl;
+      
+      //deltaxmid[b] = (95.42-rotmxp)/2.;
+      //rotmxp += deltaxmid[b]; //Transfer rotation point into the proper frame
+      //mxp += deltaxmid[b];    //Transfer sensor middle point to proper frame
+      //mTLxp += deltaxmid[b];    //Transfer Top left to proper frame 
+      //mTRxp += deltaxmid[b];    // top right to proper frame
+      //mBLxp += deltaxmid[b];    // bottom left to proper frame
+      //mBRxp += deltaxmid[b];    // bottom right to proper frame
+
       //////////////////////////////////////////////////////////////////////////////////////////////////
  
       //////////////////////////////////////////////////////////////////////////////////////////////////
       //Shift points s.t. the ideal midpoint would be at (0, lengthMidPin) 
       double mxpp;
       double imxpp = 0.0;
+     
+      double mTLxpp, iTLxpp;
+      double mTLypp, iTLypp;
+      double mTRxpp, iTRxpp;
+      double mTRypp, iTRypp;
+      double mBLxpp, iBLxpp;
+      double mBLypp, iBLypp;
+      double mBRxpp, iBRxpp;
+      double mBRypp, iBRypp;
+      
+  
       double ox, oy; //new 
-      if(a_moduleRot[b] == 0) 
-      {
-        mxpp = -(mxp - iMxAV);
-        ox = 47.71; //new
-        rotmxp = -(rotmxp - idealVals[1][0]);
+      if(a_moduleRot[b] == 1) // this indicates the orientation of the module, since they are facing different direction in z
+      { // this inner sensor is facing away from the IP
+        mxpp = -(mxp - iMxAV); // - midpoint of TRUE sensor middle + midpoint of IDEAL sensor middle
+        mTLxpp = -(mTLxp - iMxAV); 
+        mTRxpp = -(mTRxp - iMxAV); 
+        mBLxpp = -(mBLxp - iMxAV); 
+        mBRxpp = -(mBRxp - iMxAV); 
+        iTLxpp = -(iTLx - iMxAV); 
+        iTRxpp = -(iTRx - iMxAV); 
+        iBLxpp = -(iBLx - iMxAV); 
+        iBRxpp = -(iBRx - iMxAV); 
+        ox = 47.71; // xvalue of midpoint of pins relative to the origin 
+        rotmxp = -(rotmxp - idealVals[1][0]); // change the rotation point such that it flips relative to the ideal value due to sensor rotation
       }
       else
-      {
-        mxpp = mxp - iMxAV; 
-        ox = -47.71; //new
-        rotmxp = rotmxp - idealVals[1][0];
+      { // this inner sensor is facing towards the IP
+        mxpp = mxp - iMxAV; // midpoint of TRUE sensor middle - midpoint of IDEAL sensor middle
+        mTLxpp = mTLxp - iMxAV; 
+        mTRxpp = mTRxp - iMxAV; 
+        mBLxpp = mBLxp - iMxAV; 
+        mBRxpp = mBRxp - iMxAV; 
+        iTLxpp = iTLx - iMxAV; 
+        iTRxpp = iTRx - iMxAV; 
+        iBLxpp = iBLx - iMxAV; 
+        iBRxpp = iBRx - iMxAV; 
+        ox = -47.71; // xvalue of midpoint of pins relative to the origin 
+        rotmxp = rotmxp - idealVals[1][0]; // rotation point relative to its ideal position
       }
-      oy = lengthMidPin; //new
-      double mypp = lengthMidPin + myp;
-      double imypp = lengthMidPin + iMyAV;
-      rotmyp = lengthMidPin;
+      oy = lengthMidPin; // this is the point of the middle of the pins relative to the star IP. 
+      double mypp = lengthMidPin + myp; // y location of TRUE sensor center relative to STAR IP before module rotation 
+      double imypp = lengthMidPin + iMyAV; // y location of IDEAL sensor center relative to STAR IP before module rotation
+      mTLypp = lengthMidPin + mTLyp; 
+      mTRypp = lengthMidPin + mTRyp;
+      mBLypp = lengthMidPin + mBLyp;
+      mBRypp = lengthMidPin + mBRyp;
+      iTLypp = lengthMidPin + iTLy;
+      iTRypp = lengthMidPin + iTRy;
+      iBLypp = lengthMidPin + iBLy;
+      iBRypp = lengthMidPin + iBRy;
 
-      std::cout << "Place module on x = 0,  x = " << mxpp << ", y = " << mypp << std::endl;
+      rotmyp = lengthMidPin; // y location of the middle of the pins relative to the star IP 
+
+      // this corresponds to the midpoint of the sensors in the STAR frame before we rotate such that it reflects the actual module rotation
+      std::cout << "Place module on x = 0:  x = " << mxpp << ", y = " << mypp << std::endl;
+
+      // We now can swap the x and y position of all measurements because our actual coordinate system is defined with this system's x as y and the y as x
+      // This is important because the AGML geometry misalignment applies these tables and defines the vector running along the middle of the sensor along r as the x-vector 
+      std::swap(ox,oy);
+      std::swap(mxpp,mypp); 
+      std::swap(imxpp,imypp);
+      std::swap(rotmxp,rotmyp);
+      std::swap(mTLxpp,mTLypp);
+      std::swap(mTRxpp,mTRypp);
+      std::swap(mBLxpp,mBLypp);
+      std::swap(mBRxpp,mBRypp);
+      std::swap(iTLxpp,iTLypp);
+      std::swap(iTRxpp,iTRypp);
+      std::swap(iBLxpp,iBLypp);
+      std::swap(iBRxpp,iBRypp);
+
 
       //Rotate midpoint to proper location
-      moduleAngle[b] = -TMath::Pi()/12.0 - (b%12)*TMath::Pi()/6.0;
+      moduleAngle[b] = 5.0*TMath::Pi()/12.0 - (b%12)*TMath::Pi()/6.0; // module center angle within the STAR coordinate system
+      //moduleAngle[b] = -TMath::Pi()/12.0 - (b%12)*TMath::Pi()/6.0; // module center angle within the STAR coordinate system
       std::cout << "Module angle: " << TMath::RadToDeg()*moduleAngle[b] << std::endl;
-      rotatePoint(ox, oy, moduleAngle[b]); //new 
-      rotatePoint(mxpp, mypp, moduleAngle[b]);
-      rotatePoint(imxpp, imypp, moduleAngle[b]); 
-      rotatePoint(rotmxp,rotmyp, moduleAngle[b]);
+      rotatePoint(ox, oy, moduleAngle[b]); // rotate origin point for center of pins 
+      rotatePoint(mxpp, mypp, moduleAngle[b]); // rotate the actual points 
+      rotatePoint(imxpp, imypp, moduleAngle[b]); // rotate the ideal points
+      rotatePoint(rotmxp,rotmyp, moduleAngle[b]); // rotate the rotation pin point
+      rotatePoint(mTLxpp,mTLypp, moduleAngle[b]);
+      rotatePoint(mTRxpp,mTRypp, moduleAngle[b]);
+      rotatePoint(mBLxpp,mBLypp, moduleAngle[b]);
+      rotatePoint(mBRxpp,mBRypp, moduleAngle[b]);
+      rotatePoint(iTLxpp,iTLypp, moduleAngle[b]);
+      rotatePoint(iTRxpp,iTRypp, moduleAngle[b]);
+      rotatePoint(iBLxpp,iBLypp, moduleAngle[b]);
+      rotatePoint(iBRxpp,iBRypp, moduleAngle[b]);
 
       std::cout << "Ideal midpoint location in STAR Frame: x = " << imxpp << ", y = " << imypp << std::endl;
       std::cout << "Measured midpoint location in STAR Frame: x = " << mxpp << ", y = " << mypp << std::endl;
       //////////////////////////////////////////////////////////////////////////////////////////////////
 
+      // this is the ideal center pin position within the STAR coordinate frame
       std::cout << "Ideal origin in STAR Frame: x = " << ox << ", y = " << oy << std::endl;
+
+      // find the rotation needed for each corner of the sensor to shift ideal to measured position
+      double weightTL, weightTR, weightBL, weightBR;
+      double rotTL = findRotationOfSensor(iTLxpp, iTLypp, mTLxpp, mTLypp, imxpp, imypp, mxpp, mypp, weightTL);
+      double rotTR = findRotationOfSensor(iTRxpp, iTRypp, mTRxpp, mTRypp, imxpp, imypp, mxpp, mypp, weightTR);
+      double rotBL = findRotationOfSensor(iBLxpp, iBLypp, mBLxpp, mBLypp, imxpp, imypp, mxpp, mypp, weightBL);
+      double rotBR = findRotationOfSensor(iBRxpp, iBRypp, mBRxpp, mBRypp, imxpp, imypp, mxpp, mypp, weightBR);
+      
+      cout << "rotTL = " << rotTL << ", weightTL = " << weightTL << endl;    
+      cout << "rotTR = " << rotTR << ", weightTR = " << weightTR << endl;    
+      cout << "rotBL = " << rotBL << ", weightBL = " << weightBL << endl;    
+      cout << "rotBR = " << rotBR << ", weightBR = " << weightBR << endl;    
+
+
+      // average the rotation angles using the length of the vector as a weight
+      thetarot[b] = (weightTL*rotTL + weightTR*rotTR + weightBL*rotBL + weightBR*rotBR)/(weightTL + weightTR + weightBL + weightBR); 
+      std::cout << "Average Rotation of the sensor midpoint to corners: angle = " << thetarot[b] << " radians" << std::endl; 
+
+//      weightTL, weightTR, weightBL, weightBR;
+//      rotTL = findRotationOfSensor(ox, oy, ox, oy, iTLxpp, iTLypp, mTLxpp, mTLypp, weightTL);
+//      rotTR = findRotationOfSensor(ox, oy, ox, oy, iTRxpp, iTRypp, mTRxpp, mTRypp, weightTR);
+//      rotBL = findRotationOfSensor(ox, oy, ox, oy, iBLxpp, iBLypp, mBLxpp, mBLypp, weightBL);
+//      rotBR = findRotationOfSensor(ox, oy, ox, oy, iBRxpp, iBRypp, mBRxpp, mBRypp, weightBR);
+//      
+//      cout << "rotTL = " << rotTL << ", weightTL = " << weightTL << endl;    
+//      cout << "rotTR = " << rotTR << ", weightTR = " << weightTR << endl;    
+//      cout << "rotBL = " << rotBL << ", weightBL = " << weightBL << endl;    
+//      cout << "rotBR = " << rotBR << ", weightBR = " << weightBR << endl;    
+//
+// 
+//      // average the rotation angles using the length of the vector as a weight
+//      thetarot[b] = (weightTL*rotTL + weightTR*rotTR + weightBL*rotBL + weightBR*rotBR)/(weightTL + weightTR + weightBL + weightBR); 
+      std::cout << "Average Rotation of the origin pin to corners: angle = " << thetarot[b] << " radians" << std::endl; 
+
+      //thetarot[b] is the rotation angle to move measured to ideal, swap signs
+      thetarot[b]*=(-1.);
+      std::cout << "Average Rotation of the origin pin to corners SWAP SIGNS: angle = " << thetarot[b] << " radians" << std::endl; 
+
+      //double weightTLBR, weightTRBL;
+      //double rotTLBR = findRotationOfSensor(iTLxpp, iTLypp, mTLxpp, mTLypp, iBRxpp, iBRypp, mBRxpp, mBRypp, weightTLBR);
+      //double rotTRBL = findRotationOfSensor(iTRxpp, iTRypp, mTRxpp, mTRypp, iBLxpp, iBLypp, mBLxpp, mBLypp, weightTRBL);
+      //
+      //cout << "rotTLBR = " << rotTLBR << ", weightTLBR = " << weightTLBR << endl;    
+      //cout << "rotTRBR = " << rotTRBL << ", weightTRBL = " << weightTRBL << endl;    
+
+ 
+      //// average the rotation angles using the length of the vector as a weight
+      //thetarot[b] = (weightTLBR*rotTLBR + weightTRBL*rotTRBL)/(weightTLBR + weightTRBL); 
+      //std::cout << "Average Rotation of the sensor corner to corner: angle = " << thetarot[b] << " radians" << std::endl; 
+
+      // now rotate the ideal points around STAR IP origin by this averaged angle
+      rotatePoint(imxpp, imypp,  thetarot[b]); // rotate the ideal points
+      rotatePoint(iTLxpp,iTLypp, thetarot[b]);
+      rotatePoint(iTRxpp,iTRypp, thetarot[b]);
+      rotatePoint(iBLxpp,iBLypp, thetarot[b]);
+      rotatePoint(iBRxpp,iBRypp, thetarot[b]);
+      
+      std::cout << "Rotated ideal midpoint: x = " << imxpp << ", y = " << imypp << std::endl;
+
+      // calculate last shift needed to move the midpoint of the ideal to the true measured position
+      xdif[b] = mxpp - imxpp;
+      ydif[b] = mypp - imypp; 
+
+      std::cout << "xdif = " << xdif[b] << "   ydif = " << ydif[b] << std::endl << std::endl;
+
+
       //Find angle of rotation in FST Half coordinate frame
       //thetarot[b] = findTheta(imxpp, imypp, mxpp, mypp, RefPointX[b], RefPointY[b]); //old
      
-      //******QA******
-      double idelx = ox - imxpp;
-      double idely = oy - imypp;
-      double mdelx = ox - mxpp;
-      double mdely = oy - mypp;
-
-      double ilength = TMath::Sqrt( idelx*idelx + idely*idely ); //length from alignment pin to ideal middle
-      double mlength = TMath::Sqrt( mdelx*mdelx + mdely*mdely ); //length from alignment pin to measured middle
-
-      lengthOMDiff[b] = TMath::Abs(ilength - mlength);
-      //******QA******
-
-      thetarot[b] = findTheta(imxpp, imypp, mxpp, mypp, ox, oy); //new
-      std::cout << "Angle = " << thetarot[b] << std::endl;
-     
-      //Rotate the ideal midpoint of the sensor to match measured orientation 
-      rotatePoint(imxpp, imypp, thetarot[b]);
-      std::cout << "Rotated ideal midpoint: x = " << imxpp << ", y = " << imypp << std::endl;
-
-      //Calculte shift required to place the rotated ideal point onto the measured 
-      //midpoint position w.r.t. the proper '' coordinate frame origin
-      xdif[b] = mxpp - imxpp;
-      ydif[b] = mypp - imypp; 
-      std::cout << "xdif = " << xdif[b] << "   ydif = " << ydif[b] << std::endl << std::endl;
+//      //******QA******
+//      double idelx = ox - imxpp;
+//      double idely = oy - imypp;
+//      double mdelx = ox - mxpp;
+//      double mdely = oy - mypp;
+//
+//      double ilength = TMath::Sqrt( idelx*idelx + idely*idely ); //length from alignment pin to ideal middle
+//      double mlength = TMath::Sqrt( mdelx*mdelx + mdely*mdely ); //length from alignment pin to measured middle
+//
+//      lengthOMDiff[b] = TMath::Abs(ilength - mlength);
+//      //******QA******
+//
+//      thetarot[b] = findTheta(imxpp, imypp, mxpp, mypp, ox, oy); //new
+//      std::cout << "Angle = " << thetarot[b] << std::endl;
+//     
+//      //Rotate the ideal midpoint of the sensor to match measured orientation 
+//      rotatePoint(imxpp, imypp, thetarot[b]);
+//      std::cout << "Rotated ideal midpoint: x = " << imxpp << ", y = " << imypp << std::endl;
+//
+//      //Calculte shift required to place the rotated ideal point onto the measured 
+//      //midpoint position w.r.t. the proper '' coordinate frame origin
+//      xdif[b] = mxpp - imxpp;
+//      ydif[b] = mypp - imypp; 
+//      std::cout << "xdif = " << xdif[b] << "   ydif = " << ydif[b] << std::endl << std::endl;
     }
     
 
@@ -493,12 +689,14 @@ void calcInnerSensorTables(std::string inputlist = "../list/InnerSensors.list")
         y += deltay[m];
         rotatePoint(x, y, angle[m]);
  
+        //x += deltaxmid[m];
+
         if(i == 1) length = x;
 
         std::cout << "Recentered measured positions:             x=" << x << ", y=" << y << std::endl; 
 
         double ix, iy;
-        if(a_moduleRot[m] == 0) 
+        if(a_moduleRot[m] == 1) 
         {
           x = -(x - 47.71); // 47.71 is the x center of the module in the sensor frame
           ix = -(idealVals[i][0] - 47.71);              
@@ -511,8 +709,15 @@ void calcInnerSensorTables(std::string inputlist = "../list/InnerSensors.list")
         y = lengthMidPin + y; 
         iy = lengthMidPin + idealVals[i][1];
 
+
         std::cout << "Recentered measured STAR positions:        x=" << x << ", y=" << y << std::endl; 
         std::cout << "Recentered ideal    STAR positions:        x=" << ix << ", y=" << iy << std::endl; 
+
+        std::swap(x,y);
+        std::swap(ix,iy);
+
+        std::cout << "Swapped Recentered measured STAR positions:        x=" << x << ", y=" << y << std::endl; 
+        std::cout << "Swapped Recentered ideal    STAR positions:        x=" << ix << ", y=" << iy << std::endl; 
 
         rotatePoint(x, y, moduleAngle[m]);   //rotate measured point to proper STAR coordinates
         rotatePoint(ix, iy, moduleAngle[m]); //rotate ideal point to proper STAR coordinates
@@ -530,6 +735,7 @@ void calcInnerSensorTables(std::string inputlist = "../list/InnerSensors.list")
         iy += ydif[m];
 
         std::cout << "Apply alignment shift:                     x=" << ix << ", y=" << iy << std::endl;
+        if( i >= 2 && (fabs(x-ix) > 0.02 || fabs(y-iy) > 0.02) ) cout << "shifted ideal is away from measurement " << i << " on sensor " << a_moduleId[m] << endl;
         std::cout << std::endl;
 
         hist2D[i]->Fill(x - ix, y - iy); //Measured x,y - Aligned Ideal x,y in STAR coordinate frame 
@@ -542,7 +748,8 @@ void calcInnerSensorTables(std::string inputlist = "../list/InnerSensors.list")
         {
           gRotVLength->SetPoint(m,95.42-length,TMath::Sqrt((x-ix)*(x-ix)+(y-iy)*(y-iy)));
         }
-        
+  
+             
       }
     }
 

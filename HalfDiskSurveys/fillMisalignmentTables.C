@@ -7,10 +7,10 @@
 #include <numeric>
 #include "TMath.h"
 
-void fillMisalignmentTables(std::string date = "20220214")
+void fillMisalignmentTables(std::string date = "20250411")
 {
   std::fstream infile;
-  infile.open("data/MisalignmentTables_Wedges.csv", ios::in);
+  infile.open("data/MisalignmentTables_Wedges_InnerSensorOriginPin.csv", ios::in);
 
   std::vector<std::string> v_moduleId;
   std::vector<int> v_wedgeId;
@@ -57,6 +57,8 @@ void fillMisalignmentTables(std::string date = "20220214")
   outfile << "    if (!TClass::GetClass(\"St_Survey\")) return 0;" << std::endl;
   outfile << "Survey_st row;" << std::endl;
   outfile << "St_Survey *tableSet = new St_Survey(\"fstWedgeOnHss\",36);" << std::endl;
+ 
+  outfile << std::setprecision(10);
 
   for( auto i : idx)
   {

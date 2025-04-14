@@ -7,7 +7,7 @@
 #include <numeric>
 #include "TMath.h"
 
-void fillMisalignmentTables(std::string date = "20220214")
+void fillMisalignmentTables(std::string date = "20250411")
 {
   std::string sensor[3] = {"Inner Sensor (0)", "Outer Sensor (1)", "Outer Sensor (2)"};  
 
@@ -84,6 +84,7 @@ void fillMisalignmentTables(std::string date = "20220214")
     }
   }
 
+
   std::fstream outfile;
   outfile.open("output/fstSensorOnWedge."+date+".000001.C", ios::out);
 
@@ -92,6 +93,7 @@ void fillMisalignmentTables(std::string date = "20220214")
   outfile << "Survey_st row;" << std::endl;
   outfile << "St_Survey *tableSet = new St_Survey(\"fstSensorOnWedge\",108);" << std::endl;
 
+  outfile << std::setprecision(10);
   for(int i = 0; i < 108; i++)
   {
     outfile <<                                               std::endl;
